@@ -1,5 +1,5 @@
 {
-  "name": "react-google-charts",
+  "name": "@omegasoft/react-google-charts",
   "version": "3.0.15",
   "type": "react-component",
   "description": "react-google-charts React component",
@@ -8,6 +8,9 @@
   "jsnext:main": "dist/index.esm.js",
   "umd": "dist/index.umd.js",
   "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "precommit": "lint-staged && npm run test",
     "start": "parcel demo/index.html -d demo-build/",
