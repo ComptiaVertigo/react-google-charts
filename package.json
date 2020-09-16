@@ -59,9 +59,12 @@
     "staticpath": "demo/dist/"
   },
   "author": "Rakan Nimer",
-  "homepage": "https://rakannimer.github.io/react-google-charts/",
   "license": "MIT",
-  "repository": "https://github.com/RakanNimer/react-google-charts",
+  "homepage": "https://github.com/ComptiaVertigo/react-google-charts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ComptiaVertigo/react-google-charts"
+  },
   "keywords": [
     "react",
     "google",
