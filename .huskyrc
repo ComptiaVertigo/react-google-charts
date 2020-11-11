@@ -1,5 +1,4 @@
 {
     "hooks": {
-        "pre-commit": "pretty-quick --staged && git add . && lint-staged"
     }
 }
