@@ -15,7 +15,6 @@ export class Chart extends React.Component<
   ReactGoogleChartProps,
   ReactGoogleChartState
 > {
-
   _isMounted = false;
 
   state = {
@@ -35,11 +34,15 @@ export class Chart extends React.Component<
       errorElement
     } = this.props;
     return (
-      <ContextProvider value={this.props as ReactGoogleChartPropsWithDefaults}>
+      <ContextProvider
+        value={(this.props as unknown) as ReactGoogleChartPropsWithDefaults}
+      >
         {this.state.loadingStatus === "ready" && this.state.google !== null ? (
           <GoogleChart
-            {...this.props as ReactGoogleChartPropsWithDefaults}
-            google={this.state.google}
+            {...(this.props as unknown) as Required<
+              ReactGoogleChartPropsWithDefaults
+            >}
+            google={this.state.google!}
           />
         ) : this.state.loadingStatus === "errored" && errorElement ? (
           errorElement
@@ -67,9 +70,9 @@ export class Chart extends React.Component<
     if (this.isFullyLoaded(google)) {
       this.onSuccess(google);
     } else {
-      // IE11: window.google is not fully set, we have to wait
+      // IE11: google. is not fully set, we have to wait
       const id = setInterval(() => {
-        const google = (window as Window & {
+        const google = ((window as unknown) as Window & {
           google?: GoogleViz;
         }).google;
 
@@ -81,7 +84,6 @@ export class Chart extends React.Component<
         } else {
           clearInterval(id);
         }
-
       }, 1000);
     }
   };

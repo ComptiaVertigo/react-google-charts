@@ -42,7 +42,7 @@ export class GoogleChartLoader extends React.Component<Props> {
         url="https://www.gstatic.com/charts/loader.js"
         onError={onError}
         onLoad={() => {
-          const windowWithGoogle = window as Window & {
+          const windowWithGoogle = (window as unknown) as Window & {
             google?: GoogleViz;
           };
           if (windowWithGoogle.google) {

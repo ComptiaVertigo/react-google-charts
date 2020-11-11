@@ -22,11 +22,11 @@ export interface Props {
 export class GoogleChartActionsInner extends React.Component<Props> {
   componentDidMount() {
     const { chartActions } = this.props;
-    this.setChartActions(chartActions, []);
+    this.setChartActions(chartActions!, []);
   }
   componentDidUpdate(prevProps: Props) {
     const { chartActions } = this.props;
-    this.setChartActions(chartActions, prevProps.chartActions);
+    this.setChartActions(chartActions!, prevProps.chartActions!);
   }
   shouldComponentUpdate() {
     return false;
@@ -64,7 +64,10 @@ export class GoogleChartActions extends React.Component<Props> {
             <GoogleChartActionsInner
               googleChartWrapper={googleChartWrapper}
               google={google}
-              chartActions={propsFromContext.chartActions}
+              chartActions={
+                ((propsFromContext as unknown) as ReactGoogleChartProps)
+                  .chartActions as ReactGoogleChartPropsWithDefaults["chartActions"]
+              }
             />
           );
           return null;

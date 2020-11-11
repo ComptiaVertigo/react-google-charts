@@ -6,25 +6,36 @@ import {
   GoogleChartControlProp,
   GoogleChartControl,
   GoogleChartDashboard,
-  GoogleChartEditor
+  GoogleChartEditor,
+  TControls,
+  ChartDefaultsProps,
+  ChartWrapperOptions,
+  ReactGoogleChartDashboardRender
 } from "../types";
 import { generateUniqueID } from "../generate-unique-id";
 import { GoogleChartDataTable } from "./GoogleChartDataTable";
 import { GoogleChartEvents } from "./GoogleChartEvents";
 
-export type Props = {
+export type Props = Pick<
+  ChartDefaultsProps,
+  "getChartWrapper" | "getChartEditor"
+> & {
   google: GoogleViz;
   graphID?: string | null;
   graph_id?: string | null;
-  options?: ReactGoogleChartPropsWithDefaults["options"];
+  // options: ReactGoogleChartPropsWithDefaults["options"];
   chartWrapperParams?: {};
   chartType: ReactGoogleChartPropsWithDefaults["chartType"];
   width?: ReactGoogleChartPropsWithDefaults["width"];
   height?: ReactGoogleChartPropsWithDefaults["height"];
-  style?: ReactGoogleChartPropsWithDefaults["style"];
+  // style?: ReactGoogleChartPropsWithDefaults["style"];
   className?: ReactGoogleChartPropsWithDefaults["className"];
   rootProps?: ReactGoogleChartPropsWithDefaults["rootProps"];
-} & ReactGoogleChartPropsWithDefaults;
+  controls: GoogleChartControlProp[];
+  options: ChartWrapperOptions["options"];
+  style: {};
+  render: ReactGoogleChartDashboardRender;
+} & Omit<ReactGoogleChartPropsWithDefaults, "google" | "options">;
 
 export interface State {
   googleChartWrapper: GoogleChartWrapper | null;
@@ -88,7 +99,7 @@ export class GoogleChart extends React.Component<Props, State> {
     const googleChartControls =
       controls === null
         ? null
-        : controls.map((control, i) => {
+        : (controls as TControls).map((control, i) => {
             const {
               controlID: controlIDMaybe,
               controlType,
@@ -174,7 +185,7 @@ export class GoogleChart extends React.Component<Props, State> {
     if (toolbarItems !== null) {
       google.visualization.drawToolbar(
         this.toolbar_ref.current as HTMLDivElement,
-        toolbarItems
+        toolbarItems!
       );
     }
     let googleChartEditor: null | GoogleChartEditor = null;

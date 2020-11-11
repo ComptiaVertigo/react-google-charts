@@ -1,8 +1,9 @@
 // Complete Google Charts Type Definition : https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/google.visualization/index.d.ts
 import { chartDefaultProps } from "./default-props";
 
-export type ReactGoogleChartPropsWithDefaults = typeof chartDefaultProps &
-  ReactGoogleChartProps;
+export type ChartDefaultsProps = typeof chartDefaultProps;
+export type ReactGoogleChartPropsWithDefaults = ChartDefaultsProps &
+  Omit<ReactGoogleChartProps, keyof ChartDefaultsProps>;
 
 export type GoogleVizDrawToolbar = (
   toolbarContainer: HTMLDivElement,
@@ -496,13 +497,15 @@ export type WindowWithMaybeGoogle = Window & { google?: any };
 
 export type ReactGoogleChartEvent = {
   eventName: GoogleVizEventName;
-  callback: (eventCallbackArgs: {
-    chartWrapper: GoogleChartWrapper;
-    controlWrapper?: GoogleChartControl;
-    props: ReactGoogleChartProps;
-    google: GoogleViz;
-    eventArgs: any;
-  }) => void;
+  callback: (
+    eventCallbackArgs: {
+      chartWrapper: GoogleChartWrapper;
+      controlWrapper?: GoogleChartControl;
+      props: ReactGoogleChartProps;
+      google: GoogleViz;
+      eventArgs: any;
+    }
+  ) => void;
 };
 
 export type GoogleChartToolbarItem = {
@@ -543,11 +546,13 @@ export type ReactGoogleChartProps = {
     chartWrapper: GoogleChartWrapper,
     google: GoogleViz
   ) => void;
-  getChartEditor?: (args: {
-    chartEditor: GoogleChartEditor;
-    chartWrapper: GoogleChartWrapper;
-    google: GoogleViz;
-  }) => void;
+  getChartEditor?: (
+    args: {
+      chartEditor: GoogleChartEditor;
+      chartWrapper: GoogleChartWrapper;
+      google: GoogleViz;
+    }
+  ) => void;
   className?: string;
   style?: React.CSSProperties;
   formatters?: {
@@ -577,6 +582,8 @@ export type ReactGoogleChartProps = {
   toolbarID?: string;
 };
 
+export type TControls = GoogleChartControlProp[];
+
 export type GoogleChartDashboard = {
   draw: (data: GoogleDataTable) => void;
   bind: (
@@ -585,23 +592,27 @@ export type GoogleChartDashboard = {
   ) => void;
 };
 
-export type ReactGoogleChartDashboardRender = ({
-  renderControl,
-  renderChart,
-  renderToolbar
-}: {
-  renderControl: (
-    filter: ({
-      control,
-      controlProp
-    }: {
-      control: GoogleChartControl;
-      controlProp: GoogleChartControlProp;
-    }) => boolean
-  ) => any;
-  renderChart: () => any;
-  renderToolbar: () => any;
-}) => any;
+export type ReactGoogleChartDashboardRender = (
+  {
+    renderControl,
+    renderChart,
+    renderToolbar
+  }: {
+    renderControl: (
+      filter: (
+        {
+          control,
+          controlProp
+        }: {
+          control: GoogleChartControl;
+          controlProp: GoogleChartControlProp;
+        }
+      ) => boolean
+    ) => any;
+    renderChart: () => any;
+    renderToolbar: () => any;
+  }
+) => any;
 export type GoogleChartControlOptions = any;
 export type GoogleChartControl = {
   getContainerId: () => string;
@@ -633,3 +644,7 @@ export type ReactGoogleChartContext = {
     | ReactGoogleChartProps["spreadSheetQueryParameters"]
     | null;
 };
+
+declare namespace google {
+  namespace visualization {  }
+}

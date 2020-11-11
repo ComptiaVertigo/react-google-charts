@@ -1,4 +1,4 @@
-import typescript from "rollup-plugin-typescript2";
+import typescript from "@rollup/plugin-typescript";
 
 export default {
   input: "src/index.tsx",
@@ -18,10 +18,5 @@ export default {
     }
   ],
   external: ["react-load-script", "react"],
-  plugins: [
-    typescript({
-      typescript: require("typescript"),
-      abortOnError: false
-    })
-  ]
+  plugins: [typescript()]
 };

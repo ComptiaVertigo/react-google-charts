@@ -154,7 +154,7 @@ export class GoogleChartDataTableInner extends React.Component<
     }
     if (data !== null) {
       if (Array.isArray(data)) {
-        dataTable = google.visualization.arrayToDataTable(data);
+        dataTable = google.visualization.arrayToDataTable(data!);
       } else {
         dataTable = new google.visualization.DataTable(data);
       }
@@ -163,7 +163,7 @@ export class GoogleChartDataTableInner extends React.Component<
     } else if (spreadSheetUrl !== null) {
       dataTable = (await loadDataTableFromSpreadSheet(
         google,
-        spreadSheetUrl,
+        spreadSheetUrl!,
         spreadSheetQueryParameters
       )) as GoogleDataTable;
     } else {
@@ -201,7 +201,7 @@ export class GoogleChartDataTableInner extends React.Component<
       googleChartWrapper.draw();
     }
     if (formatters !== null) {
-      this.applyFormatters(dataTable, formatters);
+      this.applyFormatters(dataTable, formatters!);
       googleChartWrapper.setDataTable(dataTable);
       googleChartWrapper.draw();
     }
@@ -288,7 +288,8 @@ export class GoogleChartDataTable extends React.Component<
         render={props => {
           return (
             <GoogleChartDataTableInner
-              {...props}
+              {...props as ReactGoogleChartPropsWithDefaults &
+                GoogleChartDataTableProps}
               google={google}
               googleChartWrapper={googleChartWrapper}
               googleChartDashboard={googleChartDashboard}

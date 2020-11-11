@@ -3,7 +3,8 @@ import {
   GoogleViz,
   GoogleChartWrapper,
   ReactGoogleChartProps,
-  ReactGoogleChartEvent
+  ReactGoogleChartEvent,
+  ChartDefaultsProps
 } from "../types";
 
 import { ContextConsumer } from "../Context";
@@ -56,7 +57,7 @@ export class GoogleChartEvents extends React.Component<Props> {
     const { google, googleChartWrapper } = this.props;
     return (
       <ContextConsumer
-        render={propsFromContext => {
+        render={(propsFromContext: ChartDefaultsProps): JSX.Element | null => {
           this.listenToEvents({
             chartEvents: propsFromContext.chartEvents || null,
             google,
